@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function SearchBar() {
+/*
+    todo : props { nawfel : 'HELLO I m nawfel'} 
+*/
+
+function SearchBar(props) {
+  const [inputValue, setinputValue] = useState('');
+
+  function handleChange(e) {
+    setinputValue(e.target.value);
+  }
+
+  function envoiFormulaire(e) {
+    e.preventDefault();
+    props.recuperezDataparVille(inputValue);
+  }
   return (
-    <form className="form-style">
+    <form className="form-style" onSubmit={envoiFormulaire}>
+      {props.test}
       <input
         type="text"
-        name="search"
         id=""
+        onChange={handleChange}
         placeholder="Search the weather in..."
       />
       <button>
