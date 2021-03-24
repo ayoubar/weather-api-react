@@ -15,30 +15,39 @@ function App() {
   const [weatherData, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  function getWeatherByCity(city) {
+  async function getWeatherByCity(city) {
     // appel API
 
-    async function getData() {
-      const cle_api = process.env.REACT_APP_WEATHER_API_KEY;
-      const api_url = `${BASE_URL}/?q=${city}&appid=${cle_api}`;
+    // async function getData() {
+    const cle_api = process.env.REACT_APP_WEATHER_API_KEY;
+    const api_url = `${BASE_URL}/?q=${city}&appid=${cle_api}`;
 
-      const reponse = await fetch(api_url);
-
-      if (!reponse.ok) {
-        throw new Error('Erroor');
-      }
+    const reponse = await fetch(api_url);
+    console.log(reponse);
+    if (!reponse.ok) {
+      // throw new Error('Erroor');
+      setError('city not found');
+    } else {
+      setError(null);
       const data = await reponse.json();
-      return data;
+      setData(data);
     }
 
-    getData()
-      .then((data) => {
-        setError(null);
-        setData(data);
-      })
-      .catch((error) => {
-        setError('error');
-      });
+    /*
+      weatherData= {
+          {cod:"404",message:"city not found"}
+      }
+    */
+    // }
+
+    // getData()
+    //   .then((data) => {
+    //     setError(null);
+    //     setData(data);
+    //   })
+    //   .catch((error) => {
+    //     setError('error');
+    //   });
   }
 
   // todo: dans la variable `data` on stock les données qu'on va recevoir depuis l'API
@@ -49,6 +58,7 @@ function App() {
       todo: crée le fichier `.env.local`
       todo: crée une variable d'env appelé REACT_APP_WEATHER_API_KEY
   */
+
   console.log('API KEY', process.env.REACT_APP_WEATHER_API_KEY);
   return (
     <>
