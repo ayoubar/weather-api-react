@@ -3,8 +3,36 @@ import React from 'react';
   todo: props { ville: "rabat", status:"clear", hello: alertHello}
 */
 
+const buttonSave = {
+  border: 'none',
+  padding: '.4rem',
+  backgroundColor: '#00FF00',
+  color: '#000',
+  fontWeight: 'bold',
+  borderRadius: '10px',
+  cursor: 'pointer',
+};
+
 function WeatherCart(props) {
   console.log(props);
+
+  function saveCityToLocalStorage() {
+    // todo : verifier si la clé est existe
+    if (!localStorage.getItem('cities')) {
+      localStorage.setItem('cities', JSON.stringify([]));
+      // crée la clé vities , sa valeur par defaut est un tableau vide
+    }
+
+    // todo instruction1
+    const cities = JSON.parse(localStorage.getItem('cities'));
+
+    // ? instruction2
+    cities.push(props.data.name);
+
+    // ! instruction3
+    // mis a jour la valeur de la clé `cities`
+    localStorage.setItem('cities', JSON.stringify(cities));
+  }
 
   if (props.error) {
     return <h1 style={{ color: 'red' }}> {props.error}</h1>;
@@ -22,7 +50,10 @@ function WeatherCart(props) {
           <h2>
             {props.data.name}, {props.data?.sys.country}
           </h2>
-          <button> sbve to favarorites</button>
+          <button style={buttonSave} onClick={saveCityToLocalStorage}>
+            {' '}
+            save to favarorites
+          </button>
         </div>
       )}
     </div>

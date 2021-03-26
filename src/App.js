@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar';
 import WeatherCart from './components/WeatherCart';
-
+import FavouriteCity from './components/FavouriteCity';
 const container = {
   height: '100vh',
   background: 'black',
@@ -14,6 +14,7 @@ const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
 function App() {
   const [weatherData, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [favouritecities, setFavouriteCities] = useState([]);
 
   async function getWeatherByCity(city) {
     // appel API
@@ -64,6 +65,7 @@ function App() {
     <>
       <SearchBar test={''} recuperezDataparVille={getWeatherByCity} />
       <WeatherCart data={weatherData} error={error} />
+      <FavouriteCity favourites={favouritecities} />
     </>
   );
 }
