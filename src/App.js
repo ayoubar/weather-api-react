@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar';
 import WeatherCart from './components/WeatherCart';
@@ -15,6 +15,13 @@ function App() {
   const [weatherData, setData] = useState(null);
   const [error, setError] = useState(null);
   const [favouritecities, setFavouriteCities] = useState([]);
+
+  useEffect(() => {
+    // verifier si la clé cities existe
+    if (localStorage.getItem('cities')) {
+      setFavouriteCities(JSON.parse(localStorage.getItem('cities')));
+    }
+  }, []);
 
   async function getWeatherByCity(city) {
     // appel API
@@ -33,22 +40,10 @@ function App() {
       const data = await reponse.json();
       setData(data);
     }
+  }
 
-    /*
-      weatherData= {
-          {cod:"404",message:"city not found"}
-      }
-    */
-    // }
-
-    // getData()
-    //   .then((data) => {
-    //     setError(null);
-    //     setData(data);
-    //   })
-    //   .catch((error) => {
-    //     setError('error');
-    //   });
+  function addCityToFavourite(city) {
+    setFavouriteCities([...favouritecities, city]);
   }
 
   // todo: dans la variable `data` on stock les données qu'on va recevoir depuis l'API
@@ -64,8 +59,15 @@ function App() {
   return (
     <>
       <SearchBar test={''} recuperezDataparVille={getWeatherByCity} />
-      <WeatherCart data={weatherData} error={error} />
-      <FavouriteCity favourites={favouritecities} />
+      <WeatherCart
+        data={weatherData}
+        error={error}
+        addCityToFavourite={addCityToFavourite}
+      />
+      <FavouriteCity
+        favourites={favouritecities}
+        getWeatherByCity={getWeatherByCity}
+      />
     </>
   );
 }

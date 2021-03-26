@@ -17,6 +17,7 @@ function WeatherCart(props) {
   console.log(props);
 
   function saveCityToLocalStorage() {
+    // debugger;
     // todo : verifier si la clé est existe
     if (!localStorage.getItem('cities')) {
       localStorage.setItem('cities', JSON.stringify([]));
@@ -32,6 +33,7 @@ function WeatherCart(props) {
     // ! instruction3
     // mis a jour la valeur de la clé `cities`
     localStorage.setItem('cities', JSON.stringify(cities));
+    props.addCityToFavourite(props.data.name);
   }
 
   if (props.error) {

@@ -10,8 +10,12 @@ const container = {
 function FavouriteCity(props) {
   return (
     <div style={container}>
-      {props.favourites.map((element) => (
-        <Button title={element} />
+      {props.favourites.map((element, index) => (
+        <Button
+          key={index}
+          title={element}
+          getWeatherByCity={props.getWeatherByCity}
+        />
       ))}
     </div>
   );
