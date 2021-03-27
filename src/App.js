@@ -63,6 +63,7 @@ function App() {
         data={weatherData}
         error={error}
         addCityToFavourite={addCityToFavourite}
+        favourites={favouritecities}
       />
       <FavouriteCity
         favourites={favouritecities}

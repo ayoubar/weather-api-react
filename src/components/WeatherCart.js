@@ -13,6 +13,11 @@ const buttonSave = {
   cursor: 'pointer',
 };
 
+const buttonDelete = {
+  ...buttonSave,
+  backgroundColor: 'red',
+};
+
 function WeatherCart(props) {
   console.log(props);
 
@@ -25,11 +30,12 @@ function WeatherCart(props) {
     }
 
     // todo instruction1
-    const cities = JSON.parse(localStorage.getItem('cities'));
+    let cities = JSON.parse(localStorage.getItem('cities'));
 
     // ? instruction2
     cities.push(props.data.name);
 
+    cities = [...new Set(cities)];
     // ! instruction3
     // mis a jour la valeur de la clé `cities`
     localStorage.setItem('cities', JSON.stringify(cities));
@@ -52,10 +58,17 @@ function WeatherCart(props) {
           <h2>
             {props.data.name}, {props.data?.sys.country}
           </h2>
-          <button style={buttonSave} onClick={saveCityToLocalStorage}>
-            {' '}
-            save to favarorites
-          </button>
+
+          {props.favourites.includes(props.data.name) ? (
+            <button style={buttonDelete} onClick={saveCityToLocalStorage}>
+              {' '}
+              delete from favourite{' '}
+            </button>
+          ) : (
+            <button style={buttonSave} onClick={saveCityToLocalStorage}>
+              save to favourites
+            </button>
+          )}
         </div>
       )}
     </div>
